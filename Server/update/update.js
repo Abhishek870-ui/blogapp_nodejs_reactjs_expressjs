@@ -1,6 +1,7 @@
 //imports modules
 const express = require('express')
 let mongodb = require('mongodb')
+let multer = require("multer");
 
 
 //create mongo client
@@ -15,6 +16,17 @@ let url = require("../url")
 //import token
 let token = require("../token/token")
 
+// upload image in specfic folder
+let storage = multer.diskStorage({
+    destination: function (req, image, cb) {
+        cb(null, '../blogapp/public/uploads')
+    },
+    filename: function (req, image, cb) {
+        cb(null, image.fieldname + '-' + Date.now() + '.jpg')
+    }
+})
+let upload = multer({ storage: storage })
+
 //create rest api
 
 //create rest api
@@ -22,12 +34,12 @@ let token = require("../token/token")
 //login api
 router.post("/authuser", (req, res) => {
     let user = {
-        username : req.body.username,
+        username: req.body.username,
         email: req.body.email,
         password: req.body.password
     }
     console.log(user);
-   
+
 
     //compare with database
     mcl.connect(url, (err, conn) => {
@@ -45,11 +57,11 @@ router.post("/authuser", (req, res) => {
 
                         db.collection("users").updateOne({ '_id': array._id }, { $set: { token: myToken } }, (err, result) => {
                             if (err) {
-                                res.send({ "update": "error","error":err })
+                                res.send({ "update": "error", "error": err })
 
                             }
                             else {
-                                res.send({ 'auth': 'success', 'token': myToken, 'userDetailswithtoken' : result,"logindata" : array })
+                                res.send({ 'auth': 'success', 'token': myToken, 'userDetailswithtoken': result, "logindata": array })
 
 
                             }
@@ -57,13 +69,46 @@ router.post("/authuser", (req, res) => {
 
                     }
                     else {
-                        res.send({ 'auth': 'failed',"error" : err })
+                        res.send({ 'auth': 'failed', "error": err })
                     }
                 }
             })
         }
     })
 
+})
+
+
+router.post("/imageupdated", upload.single('image'), (req, res) => {
+    let imagerequest = {
+        username: req.body.username,
+        token: req.body.token
+    }
+    mcl.connect(url, (err, conn) => {
+        if (err) throw err;
+        else {
+            let db = conn.db("blog")
+            db.collection("users").findOne(imagerequest, (err, array) => {
+                if (err) throw err
+                else {
+                    if (array.length != 0) {
+                        let image = '../uploads' + '/' + req.file.filename;
+                        db.collection("users").updateOne({ '_id': array._id }, { $set: { image: image } }, (err, result) => {
+                            if (err) {
+                                res.send({ "update": "error", "error": err })
+
+                            }
+                            else {
+                                res.send({ 'auth': 'success', 'image': image, "imagedata": array })
+
+
+                            }
+                        })
+                    }
+                }
+            })
+        }
+    })
 })
 
 //export router

@@ -185,3 +185,21 @@
 
 }
 /* Footer file css end here*/
+/* Image upload */
+#Imageicon{
+    font-size: 40vw;
+}
+.imageshowheading{
+    text-shadow: 2px 2px 2px red;
+    background-color: aqua;
+    margin-top: 10px;
+    padding: 10px;
+}
+.imagebutton{
+    margin: 20px;
+}
+#selectImage{
+    border-radius: 50%;
+    width: 50%;
+}
+/* End of  Image upload */

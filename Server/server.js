@@ -11,7 +11,7 @@ app.use(bodyparser.json())
 
 //client not sending from data -> encoding to JSON
 app.use(bodyparser.urlencoded({extended : false}))
-app.use(express.static(__dirname + '../blog/public')); //__dir and not _dir
+// app.use(express.static(__dirname + '../blog/public')); //__dir and not _dir
 //enable CORS -> Cross Origin Resourse Sharing
 app.use(cors())
 let port = process.env.PORT || 8080

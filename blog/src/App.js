@@ -5,6 +5,7 @@ import Home from './Component/View/Home';
 import Signup from './Component/View/Signup';
 import './Component/assets/css/style.css'
 import Login from './Component/View/Login';
+import ImageUpload from './Component/View/ImageUpload';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route exact path='/' element={<Home />}></Route>
           <Route exact path='/signup' element={<Signup />}></Route>
           <Route exact path='/login' element={<Login />}></Route>
+          <Route exact path='/imageupload' element={<ImageUpload />}></Route>
+
         </Routes>
       </Router>
     </div>

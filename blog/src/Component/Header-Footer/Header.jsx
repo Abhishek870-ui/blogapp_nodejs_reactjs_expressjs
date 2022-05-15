@@ -1,6 +1,6 @@
 import  Axios  from 'axios';
 import React, { useEffect, useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const Header = () => {
   const URL = window.location.pathname;
@@ -67,7 +67,7 @@ const Header = () => {
                   <ion-icon name="key-outline"></ion-icon> Account
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#"><ion-icon name="create-outline"></ion-icon>Edit Image</a>
+                    <Link class="dropdown-item" to="/imageupload"><ion-icon name="create-outline"></ion-icon>Edit Image</Link>
                     <button class="dropdown-item" onClick={() => logoutuser()} ><ion-icon name="log-out-outline"></ion-icon>Logout</button>
                   </div>
                 </li>
