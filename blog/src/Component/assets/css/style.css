@@ -1,0 +1,169 @@
+/* Header file css start here */
+.navbar-item{
+    text-decoration: none;
+    color: antiquewhite;
+    margin: 10px;
+}
+
+/* Header file css ends here */
+
+/* register file css start here */
+.registrationform{
+    background: linear-gradient(to left bottom,#A770EF,#CF8BF3,#FDB99B);
+    width: 100%;
+    padding-bottom: 15px;
+}
+#registerform{
+    width: 100%;
+    margin-top: 10px;
+    margin: 5%;
+    margin-bottom: 10px;
+}
+#registerlogoimage{
+    width: 100%;
+}
+#registerlogoimage img{
+    width: 100%;
+    height: 100%;
+    float: left;
+    border-radius: 20px 0px 0px 20px;
+
+}
+.registrationformuserdetails{
+    background-color: aliceblue;
+    padding: 5%;
+    border-radius: 0px 20px 20px 0px;
+
+}
+.registrationformuserdetails label{
+    color: black;
+    font-weight: bold;
+    float: left;
+    margin: 0px;
+}
+.registrationformuserdetails label span{
+    color: red;
+    font-weight: bold;
+}
+.registrationformuserdetails input{
+    border-radius: 20px;
+    background-color: transparent;
+    border: 2px solid black;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.registrationformuserdetails input::placeholder{
+    color: gray;
+    font-weight: bold;
+}
+.registrationformuserdetails input[type = radio]{
+    width: 5%;
+}
+.errormessage{
+    color: red;
+    font-weight: bold;
+}
+#selectImage{
+    width: 35%;
+    margin: 10%;
+}
+
+#passwordhide{
+    cursor: pointer;
+    margin-top: -66px;
+    margin-right: 9px;
+    float: right;
+    position: relative;
+    box-shadow: none;
+}
+
+/* register file css ends here */
+
+
+/* login file css start here */
+.loginform{
+    /* background: linear-gradient(to left bottom,#A770EF,#CF8BF3,#FDB99B); */
+    width: 100%;
+    padding-bottom: 15px;
+    height: 100%;
+    justify-content: center;
+    background-size: cover;
+}
+#loginform{
+    width: 100%;
+    margin-top: 10px;
+    margin: 5%;
+    margin-bottom: 60px;
+}
+#loginlogoimage{
+    width: 100%;
+}
+#loginlogoimage img{
+    width: 100%;
+    height: 100%;
+    float: left;
+    border-radius: 20px 0px 0px 20px;
+
+}
+.loginformuserdetails{
+    background-color: aliceblue;
+    padding: 5%;
+    border-radius: 0px 20px 20px 0px;
+    height: 100%;
+    padding-top: 25%;
+    padding-bottom: 25%;
+
+}
+.loginformuserdetails label{
+    color: black;
+    font-weight: bold;
+    float: left;
+    margin: 0px;
+}
+.loginformuserdetails label span{
+    color: red;
+    font-weight: bold;
+}
+.loginformuserdetails input{
+    border-radius: 20px;
+    background-color: transparent;
+    border: 2px solid black;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.loginformuserdetails input::placeholder{
+    color: gray;
+    font-weight: bold;
+}
+.loginformuserdetails input[type = radio]{
+    width: 5%;
+}
+.errormessage{
+    color: red;
+    font-weight: bold;
+}
+#selectImage{
+    width: 35%;
+    margin: 10%;
+}
+/* login file css ends here */
+
+/* Footer file css start here */
+.footer{
+    background-color: black;
+    color: aliceblue;
+
+}
+.quicklinks{
+    text-decoration: none;
+}
+.quicklinks li {
+    text-decoration: none;
+    list-style: none;
+    margin-right : 5px;
+    padding: 5px;
+
+}
+/* Footer file css end here*/
