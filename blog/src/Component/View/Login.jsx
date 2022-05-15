@@ -165,7 +165,7 @@ const Login = () => {
                 })
                 .catch(err => {
                     console.log("error has occured while insert new member : " + err)
-                    message.error("Error while create account")
+                    message.error("Error while Login")
                 })
 
         }

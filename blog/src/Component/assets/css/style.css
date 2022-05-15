@@ -4,6 +4,24 @@
     color: antiquewhite;
     margin: 10px;
 }
+#icon{
+    color: white;
+    margin-right: 2px;
+    margin-top: 10px;
+}
+#navbarDropdownMenuLink{
+    font-weight: bold;
+    color: white;
+    font-size: large;
+    margin-top: 10px;
+    
+}
+.username{
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+}
 
 /* Header file css ends here */
 
