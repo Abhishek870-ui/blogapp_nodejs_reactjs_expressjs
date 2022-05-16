@@ -154,6 +154,7 @@ const Login = () => {
                 .then(res => {
                     console.log(res.data.data)
                     message.success('login successfully.');
+                    console.log(res.data.logindata.token);
                     sessionStorage.setItem("token",res.data.logindata.token)
                     sessionStorage.setItem("UserName",res.data.logindata.username)
                     sessionStorage.setItem("First_Name",res.data.logindata.fname)

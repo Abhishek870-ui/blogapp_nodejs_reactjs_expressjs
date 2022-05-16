@@ -1,8 +1,9 @@
 import  Axios  from 'axios';
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 const Header = () => {
+  const navigate = useNavigate();
   const URL = window.location.pathname;
   const [usercollection, setUsercollection] = useState("")
 
@@ -23,6 +24,7 @@ const Header = () => {
   const logoutuser =() => {
     sessionStorage.clear()
     setUsercollection("")
+    navigate("/")
 
   }
   return (

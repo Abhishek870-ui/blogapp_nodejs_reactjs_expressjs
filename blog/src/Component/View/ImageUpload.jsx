@@ -28,12 +28,14 @@ function ImageUpload() {
 
     }
 
-    const updateimage = () => {
+    const updateimage = (e) => {
+        e.preventDefault();
         if(fileimage){
             let formData = new FormData();
-            formData.append('image', document.querySelector('#image').files[0]);
             formData.append('username', sessionStorage.getItem("UserName"));
             formData.append('token', sessionStorage.getItem("token"));
+            formData.append('image', document.querySelector('#image').files[0]);
+
 
             console.log("form data for update above : ", formData)
 
@@ -82,9 +84,9 @@ function ImageUpload() {
                         <div className="row justify-content-center">
                             <div className="form-group">
                                 {fileimage ?
-                                    <button className='btn btn-primary' onClick={() => updateimage()} >Update Image</button>
+                                    <button className='btn btn-primary' onClick={(e) => updateimage(e)} >Update Image</button>
                                     :
-                                    <label for="image" className=" btn btn-primary text-white text-center" >Upload Image</label>
+                                    <label for="image"  className=" btn btn-primary text-white text-center" >Upload Image</label>
 
                                 }
                                 <input id="image" style={{ display: "none" }} type="file" accept=".jpeg, .jpg, .png, .gif" name='image' onChange={(e) => update(e)}></input>
