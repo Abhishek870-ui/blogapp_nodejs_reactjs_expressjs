@@ -17,33 +17,9 @@ let url = require("../url")
 let token = require("../token/token")
 //create rest api
 
-//fetch all users
-router.get("/usercollection", (req, res) => {
-    
-
-    //compare with database
-    mcl.connect(url, (err, conn) => {
-        if (err) throw err;
-        else {
-            let db = conn.db("blog")
-            
-            db.collection("users").find({}).toArray((err, array) => {
-                
-                if (err) {
-                    throw err
-                }
-                else {
-                    res.send({"fetch" : "success", "usercollection" : array})
-                   
-                }
-            })
-        }
-    })
-
-})
 
 
-router.post("/imagecollection", (req, res) => {
+router.post("/imagedelete", (req, res) => {
     let decoded = jwt.decode(req.body.token, '12345');
     
 
@@ -59,7 +35,26 @@ router.post("/imagecollection", (req, res) => {
                     throw err
                 }
                 else {
-                    res.send({"fetch" : "success", "imagecollection" : array})
+                    if (array.length != 0) {
+
+                        db.collection("users").updateOne({ '_id': array._id }, { $set: { image: "" } }, (err, result) => {
+                            if (err) {
+                                res.send({ "update": "error", "error": err })
+
+                            }
+                            else {
+                                res.send({"delete" : "success", "imagedelete" : array})
+                                console.log(array,"result");
+
+
+                            }
+                        })
+
+                    }
+                    else {
+                        res.send({ 'delete': 'failed', "error": err })
+                    }
+                   
                    
                 }
             })

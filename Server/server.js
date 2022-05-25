@@ -19,13 +19,13 @@ let port = process.env.PORT || 8080
 var fetch = require("./fetch/fetch")
 var insert = require("./insert/insert")
 var update = require("./update/update")
-// var remove = require("./delete/delete")
+var remove = require("./delete/delete")
 
 //use above module
 app.use("/fetch",fetch)
 app.use("/insert",insert)
 app.use("/update",update)
-// app.use("/delete",remove)
+app.use("/delete",remove)
 
 //assign port no
 app.listen(port,()=>{

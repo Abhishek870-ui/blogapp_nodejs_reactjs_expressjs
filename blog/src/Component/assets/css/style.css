@@ -18,9 +18,19 @@
 }
 .username{
     margin-top: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
+    
 
+}
+.imagelist{
+    width: 10%;
+}
+#accountimage{
+    width: 100%;
+    border-radius: 90%;
+    margin-top: 10px;
+}
+.navbar-nav{
+    margin-left: 55%;
 }
 
 /* Header file css ends here */
@@ -203,3 +213,43 @@
     width: 50%;
 }
 /* End of  Image upload */
+
+/* blogadd css start here */
+.createblog h1{
+    text-shadow: 5px 5px 5px red;
+    font-weight: bold;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.createblog .createblogform{
+    margin: 40px;
+}
+.createblog .createblogform label{
+    font-weight: bold;
+    float: left;
+    font-size: large;
+}
+.createblog .createblogform  input{
+    width: 100%;
+    padding: 5px;
+}
+.createblog .createblogform  #blogtitle{
+    border-radius: 8px;
+    border-color: lightgrey;
+    border: 1px solid lightgrey;
+    padding: 10px;
+
+}
+.createblog .createblogform .rdw-editor-toolbar {
+
+    width: 100%;
+    border: 2px solid lightgrey;
+   
+}
+.createblog .createblogform .rdw-editor-wrapper {
+    height: 400px;
+    width: 100%;
+    border: 2px solid lightgrey;
+    overflow: hidden;
+}
+/* blogadd css ends here */
+

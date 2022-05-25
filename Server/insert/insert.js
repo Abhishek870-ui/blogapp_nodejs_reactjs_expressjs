@@ -13,15 +13,16 @@ let router = express.Router()
 let url = require("../url")
 
 // upload image in specfic folder
-// let storage = multer.diskStorage({
-//     destination: function (req, image, cb) {
-//         cb(null, '../blogapp/public/uploads')
-//     },
-//     filename: function (req, image, cb) {
-//         cb(null, image.fieldname + '-' + Date.now() + '.jpg')
-//     }
-// })
-// let upload = multer({ storage: storage })
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../blog/public/blogfiles')
+    },
+    filename: function (req, file, cb) {
+       
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname) )
+    }
+})
+let upload = multer({ storage: storage })
 
 
 //create rest api
@@ -64,6 +65,85 @@ router.post("/registerUser", (req, res) => {
 
                     
                     res.send({ "insert": "success","data":userdata })
+                }
+            })
+        }
+    })
+
+})
+
+
+router.post("/blogadd",upload.fields([{
+    name: 'image',
+    maxCount: 1
+},
+{
+    name: 'audio',
+    maxCount: 1
+},
+{
+    name: 'video',
+    maxCount: 1
+
+}]), (req, res) => {
+console.log(req,"reqfrom frontend");
+    let blogtitle = req.body.blogtitle
+    let blogdescription = req.body.blogdescription
+    if (req.files.image) {
+        image = '../uploads' + '/' + req.files.image[0].filename;
+
+    }
+    let audio = '';
+    if (req.files.audio) {
+        audio = '../uploads' + '/' + req.files.audio[0].filename;
+
+    }
+    let video = '';
+    if (req.files.video) {
+        video = '../uploads' + '/' + req.files.audio[0].filename;
+
+    }
+
+    let decoded = jwt.decode(req.body.token, '12345');
+    mcl.connect(url, (err, conn) => {
+        if (err) throw err;
+        else {
+            let db = conn.db("blog")
+            
+            db.collection("users").findOne(decoded, (err, array) => {
+                
+                if (err) {
+                    throw err
+                }
+                else {
+                    res.send({"fetch" : "success", "blogcollestionuser" : array})
+                   const blogdata = {
+                       "userid" : array._id,
+                    "fname":array.fname,
+                    "lname": array.lname,
+                    "email": array.email,
+                    "username": array.username,
+                    "blogtitle" : blogtitle,
+                    "blogdescription" : blogdescription,
+                    "image" : image,
+                    "video" : video,
+                    "video" : video,
+                    "created_at": moment().format(),
+                    "updated_at":moment().format()
+
+                    }
+                    db.collection("blogs").insertOne(blogdata, (err) => {
+                        if (err) {
+                            throw err;
+                        }
+                        else {
+        
+                            
+                            res.send({ "insert": "success","blogdata":blogdata })
+                        }
+                    })
+    
+                   
                 }
             })
         }
