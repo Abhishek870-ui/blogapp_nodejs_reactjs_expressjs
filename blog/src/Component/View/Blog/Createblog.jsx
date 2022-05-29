@@ -4,22 +4,33 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToRaw, EditorState } from "draft-js";
 import draftToHtml from 'draftjs-to-html';
-import { Axios } from 'axios';
+import axios, { Axios } from 'axios';
 import { message } from 'antd';
+import { useParams } from 'react-router-dom';
+import htmlToDraft from 'html-to-draftjs';
 const Createblog = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
-
+  const { id } = useParams()
+  console.log(id, "id");
+  const [fileimage, setFileimage] = useState(null);
+  const [fileaudio, setFileaudio] = useState(null);
+  const [filevideo, setFilevideo] = useState(null);
 
   const [data, setData] = useState({
     blogtitle: '',
     blogdescription: '',
-    image: '',
-    audio: '',
-    video: ''
+    blogimage: '',
+    blogaudio: '',
+    blogvideo: '',
+    imagepath: '',
+    audiopath: '',
+    videopath: '',
+
   })
 
   const [errormessage, setErrormessage] = useState(null)
+
 
   const validationcommon = (value, type) => {
     console.log(value, "value");
@@ -120,7 +131,22 @@ const Createblog = () => {
       setData({
         ...data, [name]: value
       })
-
+      console.log(e.target.files, "eeeeeeeee");
+      if (e.target.name === "blogimage") {
+        if (e.target.files) {
+          setFileimage(e.target.files[0])
+        }
+      }
+      if (e.target.name === "blogaudio") {
+        if (e.target.files) {
+          setFileaudio(e.target.files[0])
+        }
+      }
+      if (e.target.name === "blogvideo") {
+        if (e.target.files) {
+          setFilevideo(e.target.files[0])
+        }
+      }
       let error = keyupValdation(e, type)
       if (error) {
         e.preventDefault();
@@ -142,7 +168,22 @@ const Createblog = () => {
     setData({
       ...data, [name]: value
     })
-    
+    if (e.target.name === "blogimage") {
+      if (e.target.files) {
+        setFileimage(e.target.files[0])
+      }
+    }
+    if (e.target.name === "blogaudio") {
+      if (e.target.files) {
+        setFileaudio(e.target.files[0])
+      }
+    }
+    if (e.target.name === "blogvideo") {
+      if (e.target.files) {
+        setFilevideo(e.target.files[0])
+      }
+    }
+
     let error = keyupValdation(e, type)
     if (error) {
       setErrormessage({ ...errormessage, [name]: error })
@@ -160,54 +201,87 @@ const Createblog = () => {
   const submit = (e) => {
     e.preventDefault()
     if (
-    errormessage.blogtitle != ""  ) {
-    // alert("Filled the all input fields")
-    message.error("Fill all the Input field")
-}
-else{
-  // let formData = new FormData();
-  // var blogdetails = {
-  //   'token': sessionStorage.getItem("token"),
-  //   'image': document.querySelector('#blogimage').files[0],
-  //   'audio': document.querySelector('#blogaudio').files[0],
-  //   'video': document.querySelector('#blogvideo').files[0],
-  //   'blogtitle': data.blogtitle,
-  //   'blogdescription': data.blogdescription
-  // }
-  // formData.append('token', sessionStorage.getItem("token"));
-  // formData.append('image', document.querySelector('#blogimage').files[0]);
-  // formData.append('audio', document.querySelector('#blogaudio').files[0]);
-  // formData.append('video', document.querySelector('#blogvideo').files[0]);
-  // formData.append('blogtitle', data.blogtitle)
-  // formData.append('blogdescription', data.blogdescription);
-// console.log(formData,"formData");
-console.log(data,"data");
-  Axios.post("http://localhost:8080/insert/blogadd", {
-      'token': sessionStorage.getItem("token"),
-    'image': document.querySelector('#blogimage').files[0],
-    'audio': document.querySelector('#blogaudio').files[0],
-    'video': document.querySelector('#blogvideo').files[0],
-    'blogtitle': data.blogtitle,
-    'blogdescription': data.blogdescription
-  })
-  .then(res => {
-    message.success("Image insert successfully")
-    console.log(res);
-  })
-  .catch(err => {
-    console.log("error has occured while on update : " + err)
-})
-}
+      errormessage.blogtitle != "") {
+      message.error("Fill all the Input field")
+    }
+    else {
+      if (!id) {
+        let formData = new FormData();
+
+        formData.append('token', sessionStorage.getItem("token"));
+        formData.append('blogimage', document.querySelector('#blogimage').files[0]);
+        formData.append('blogaudio', document.querySelector('#blogaudio').files[0]);
+        // formData.append('blogvideo', document.querySelector('#blogvideo').files[0]);
+        formData.append('blogtitle', data.blogtitle)
+        formData.append('blogdescription', data.blogdescription);
+        axios.post("http://localhost:8080/insert/blogadd", formData)
+          .then(res => {
+            message.success("Image insert successfully")
+            console.log(res);
+          })
+          .catch(err => {
+            console.log("error has occured while on update : " + err)
+          })
+      }
+      else {
+        let formData = new FormData();
+
+        formData.append('id', id);
+        formData.append('blogimage', document.querySelector('#blogimage').files[0]);
+        formData.append('blogaudio', document.querySelector('#blogaudio').files[0]);
+        // formData.append('blogvideo', document.querySelector('#blogvideo').files[0]);
+        formData.append('blogtitle', data.blogtitle)
+        formData.append('blogdescription', data.blogdescription);
+        axios.post("http://localhost:8080/update/blogupdate", formData)
+          .then(res => {
+            message.success("data update successfully")
+            console.log(res);
+
+          })
+          .catch(err => {
+            console.log("error has occured while on update : " + err)
+          })
+      }
+
+    }
 
 
   }
-  useEffect(()=>{
+
+  useEffect(() => {
+    if (id != null) {
+
+      axios.get(`http://localhost:8080/fetch/blogdatabyid/${id}`)
+        .then(res => {
+          console.log(res.data.blogdatabyid, "res in id");
+          setData({
+            ...data,
+            blogaudio: res.data.blogdatabyid.blogaudio,
+            blogvideo: res.data.blogdatabyid.blogvideo,
+            blogimage: res.data.blogdatabyid.blogimage,
+            blogtitle: res.data.blogdatabyid.blogtitle,
+            blogdescription: res.data.blogdatabyid.blogdescription,
+            imagepath: res.data.blogdatabyid.blogimage,
+            audiopath: res.data.blogdatabyid.blogaudio,
+            videopath: res.data.blogdatabyid.blogvideo,
+          })
+          
+        })
+        .catch(err => {
+          console.log("error has occured while on update : " + err)
+        })
+    }
+
+  }, [])
+
+  console.log(fileimage, "fileimaget");
+  useEffect(() => {
     setData({
       ...data, blogdescription: draftToHtml(convertToRaw(editorState.getCurrentContent()))
     })
-  },[editorState])
-  // console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())), "blogdescription")
+  }, [editorState])
 
+  console.log(editorState,"editorStateeditorState");
   return (
     <>
       <div className='createblog'>
@@ -238,14 +312,16 @@ console.log(data,"data");
               <Editor
                 id='texteditor'
                 editorState={editorState}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
+                // toolbarClassName="toolbarClassName"
+                // wrapperClassName="wrapperClassName"
                 editorClassName="editorClassName"
                 onEditorStateChange={setEditorState}
                 placeholder="Enter Description Here"
+                value={data.blogdescription}
+               
               />
             </div>
-
+           
 
             <div className="form-group">
               <label for="blogimage">Blog Image <span>*</span></label>
@@ -253,7 +329,7 @@ console.log(data,"data");
                 className="form-control form-control-lg"
                 type="file"
                 id="blogimage"
-                name='image'
+                name='blogimage'
                 accept='.jpeg,.jpg, .phg, .gif, .tiff, .psd, .pdf, .eps, .ai'
                 onChange={(e) => blogdata(e)}
                 onKeyDown={(e) => onKeyDown(e)}
@@ -261,7 +337,7 @@ console.log(data,"data");
 
             </div>
             {errormessage && errormessage.image !== '' ? <p className='errormessage'>{errormessage.image}</p> : null}
-
+            {fileimage ? <img id="blogidImage" src={fileimage ? URL.createObjectURL(fileimage) : null} alt={fileimage ? fileimage.name : null} /> : <p>{data.imagepath === '' ? null : <img src={`${data.imagepath}`} id='blogidImage'></img>}</p>}
 
 
             <div className="form-group">
@@ -269,7 +345,7 @@ console.log(data,"data");
               <input
                 className="form-control form-control-lg"
                 type="file" id="blogaudio"
-                name='audio'
+                name='blogaudio'
 
                 accept='.m4a, .flac, .mp3, .mp4, .wav, .wma, .aac'
                 onChange={(e) => blogdata(e)}
@@ -278,27 +354,33 @@ console.log(data,"data");
 
             </div>
             {errormessage && errormessage.audio !== '' ? <p className='errormessage'>{errormessage.audio}</p> : null}
+            <audio controls autoplay muted> <source src={`${data.audiopath}`} type="audio/mpeg"></source></audio>
+            {fileaudio ?
+              <audio controls autoplay muted> <source src={fileaudio ? URL.createObjectURL(fileaudio) : null} type="audio/mpeg"></source></audio> :
+              <p>
+                {data.audiopath === ''
+                  ? null
+                  : <audio controls autoplay muted> <source src={`${data.audiopath}`} type="audio/mpeg"></source></audio>}</p>}
 
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <label for="blogvideo">Blog video <span>*</span></label>
               <input
                 className="form-control form-control-lg"
                 type="file"
                 id="blogvideo"
-                name='video'
+                name='blogvideo'
                 accept='.mp4, .mov, .wmv, .flv, .avi, .avchd, .webm, .mkv'
                 onChange={(e) => blogdata(e)}
                 onKeyDown={(e) => onKeyDown(e)}
               ></input>
 
-            </div>
+            </div> */}
             {errormessage && errormessage.video !== '' ? <p className='errormessage'>{errormessage.video}</p> : null}
+            {
+              !id ? <button type="button" onKeyDown={onKeyDown} onClick={(e) => submit(e)} className="sub btn btn-primary">Create Blog</button> : <button type="button" onClick={(e) => submit(e)} onKeyDown={onKeyDown} className="sub btn btn-primary">Update Blog</button>
+            }
 
-            <button type="button "
-
-              onClick={(e) => submit(e)}
-              className="sub btn btn-primary">Create Blog</button>
           </form>
 
         </div>

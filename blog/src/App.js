@@ -20,6 +20,8 @@ function App() {
           <Route exact path='/login' element={<Login />}></Route>
           <Route exact path='/imageupload' element={<ImageUpload />}></Route>
           <Route exact path='/createblog' element={<Createblog />}></Route>
+          <Route exact path='/editblog/:id' element={<Createblog />}></Route>
+
           <Route exact path='/listblog' element={<Viewblog />}></Route>
 
 
